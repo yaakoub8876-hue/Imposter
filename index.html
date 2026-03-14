@@ -6,121 +6,27 @@
   <title>من هو المحتال؟ 🎭</title>
   <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
   <style>
-    :root {
-      --bg: #0f172a;
-      --card: #1e293b;
-      --gold: #ffeb3b;
-      --accent: #ff5722;
-      --primary: #673ab7;
-    }
+    :root { --bg:#0f172a; --card:#1e293b; --gold:#ffeb3b; --accent:#ff5722; --primary:#673ab7; }
     * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      font-family: system-ui, sans-serif;
-      background: linear-gradient(135deg, var(--bg), #1e293b);
-      color: white;
-      min-height: 100vh;
-      padding: 20px 15px;
-    }
-    .container {
-      max-width: 720px;
-      margin: 0 auto;
-    }
-    h1 {
-      text-align: center;
-      color: var(--gold);
-      margin-bottom: 24px;
-      font-size: 2.6rem;
-      text-shadow: 0 0 16px rgba(255,235,59,0.4);
-    }
-    #status {
-      text-align: center;
-      font-size: 1.35rem;
-      margin: 20px 0;
-      color: #a5d6a7;
-    }
-    #players {
-      background: var(--card);
-      border-radius: 12px;
-      padding: 16px;
-      margin: 20px 0;
-    }
-    #players h3 {
-      color: var(--gold);
-      margin-bottom: 12px;
-    }
-    #players-list {
-      line-height: 1.7;
-      font-size: 1.1rem;
-    }
-    #join {
-      text-align: center;
-      margin: 32px 0;
-    }
-    #username {
-      padding: 14px 20px;
-      font-size: 1.15rem;
-      border: none;
-      border-radius: 30px 0 0 30px;
-      width: 220px;
-    }
-    button {
-      padding: 14px 28px;
-      font-size: 1.15rem;
-      background: var(--accent);
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button.round {
-      border-radius: 0 30px 30px 0;
-    }
-    button.topic {
-      padding: 14px 32px;
-      margin: 8px;
-      border-radius: 999px;
-      background: var(--primary);
-    }
-    button:hover {
-      filter: brightness(1.15);
-    }
-    #topics {
-      text-align: center;
-      margin: 40px 0;
-      display: none;
-    }
-    #game-area {
-      display: none;
-      text-align: center;
-      margin: 40px 0;
-    }
-    #my-word {
-      font-size: 7rem;
-      font-weight: bold;
-      color: var(--gold);
-      margin: 20px 0;
-      text-shadow: 0 0 24px rgba(255,235,59,0.5);
-    }
-    #impostor-msg {
-      font-size: 2.1rem;
-      color: #ff1744;
-      font-weight: bold;
-      margin: 16px 0;
-    }
-    #chat {
-      background: var(--card);
-      border-radius: 12px;
-      padding: 16px;
-      margin-top: 32px;
-      max-height: 320px;
-      overflow-y: auto;
-    }
-    #messages p {
-      margin: 8px 0;
-      padding: 10px 14px;
-      background: rgba(255,255,255,0.07);
-      border-radius: 10px;
-    }
-    .hidden { display: none !important; }
+    body { font-family:system-ui,sans-serif; background:linear-gradient(135deg,var(--bg),#1e293b); color:white; min-height:100vh; padding:20px 15px; }
+    .container { max-width:720px; margin:0 auto; }
+    h1 { text-align:center; color:var(--gold); margin-bottom:24px; font-size:2.6rem; text-shadow:0 0 16px rgba(255,235,59,0.4); }
+    #status { text-align:center; font-size:1.35rem; margin:20px 0; color:#a5d6a7; }
+    #players { background:var(--card); border-radius:12px; padding:16px; margin:20px 0; }
+    #players h3 { color:var(--gold); margin-bottom:12px; }
+    #players-list { line-height:1.7; font-size:1.1rem; }
+    button { padding:14px 28px; font-size:1.15rem; background:var(--accent); color:white; border:none; cursor:pointer; border-radius:8px; margin:8px; }
+    button:hover { filter:brightness(1.15); }
+    input { padding:14px 20px; font-size:1.15rem; border:none; border-radius:8px; }
+    #lobby { text-align:center; margin:40px 0; }
+    #roomInfo { margin:20px 0; font-size:1.3rem; text-align:center; color:#ffeb3b; }
+    #topics { text-align:center; margin:40px 0; display:none; }
+    #game-area { display:none; text-align:center; margin:40px 0; }
+    #my-word { font-size:7rem; font-weight:bold; color:var(--gold); margin:20px 0; text-shadow:0 0 24px rgba(255,235,59,0.5); }
+    #impostor-msg { font-size:2.1rem; color:#ff1744; font-weight:bold; margin:16px 0; }
+    #chat { background:var(--card); border-radius:12px; padding:16px; margin-top:32px; max-height:320px; overflow-y:auto; }
+    #messages p { margin:8px 0; padding:10px 14px; background:rgba(255,255,255,0.07); border-radius:10px; }
+    .hidden { display:none !important; }
   </style>
 </head>
 <body>
@@ -128,116 +34,145 @@
 <div class="container">
   <h1>من هو المحتال؟ 🎭</h1>
 
-  <div id="status">جاري الانتظار للاعبين… (الحد الأدنى 3)</div>
+  <div id="status">جاري الانتظار...</div>
 
-  <div id="players">
-    <h3>اللاعبون الحاليون</h3>
-    <div id="players-list">لا يوجد لاعبون بعد…</div>
+  <div id="lobby">
+    <h2>اختر غرفة للعب</h2>
+    <button onclick="createRoom()">إنشاء غرفة جديدة</button>
+    <div style="margin:30px 0;">
+      <input id="roomIdInput" placeholder="أدخل كود الغرفة (مثال: ABC123)" style="width:220px;" />
+      <button onclick="joinExistingRoom()">انضم إلى غرفة</button>
+    </div>
+    <div id="roomInfo"></div>
   </div>
 
-  <div id="join">
-    <input id="username" placeholder="اكتب اسمك…" maxlength="20" />
-    <button class="round" onclick="joinGame()">انضم</button>
+  <div id="players" class="hidden">
+    <h3>اللاعبون في الغرفة</h3>
+    <div id="players-list"></div>
   </div>
 
-  <div id="topics">
+  <div id="topics" class="hidden">
     <h2>اختر الموضوع</h2>
     <div id="topic-buttons"></div>
   </div>
 
-  <div id="game-area">
-    <p>الموضوع: <strong id="topic-display">—</strong>  |  الجولة <span id="round">1</span></p>
+  <div id="game-area" class="hidden">
+    <p>الموضوع: <strong id="topic-display">—</strong> | الجولة <span id="round">1</span></p>
     <div id="my-word">؟؟؟</div>
-    <div id="impostor-msg" class="hidden">أنت المحتال! 😈</div>
+    <div id="impostor-msg" class="hidden">أنت المحتال! 😈 حاول تتخفى...</div>
   </div>
 
-  <div id="chat">
+  <div id="chat" class="hidden">
     <div id="messages"></div>
   </div>
 </div>
 
 <script>
-// غيّر هذا السطر إلى عنوان السيرفر الحقيقي الخاص بك
-const SOCKET_SERVER = "http://localhost:3000";   // مثال: https://your-app.onrender.com
+const socket = io();  // إذا رفعته على سيرفر خارجي → socket = io("https://your-domain.com");
 
-const socket = io(SOCKET_SERVER);
+const statusEl = document.getElementById('status');
+const playersDiv = document.getElementById('players');
+const playersList = document.getElementById('players-list');
+const lobby = document.getElementById('lobby');
+const roomInfo = document.getElementById('roomInfo');
+const topicsDiv = document.getElementById('topics');
+const topicButtons = document.getElementById('topic-buttons');
+const gameArea = document.getElementById('game-area');
+const myWord = document.getElementById('my-word');
+const impostorMsg = document.getElementById('impostor-msg');
+const topicDisplay = document.getElementById('topic-display');
+const roundEl = document.getElementById('round');
+const messages = document.getElementById('messages');
+const chatDiv = document.getElementById('chat');
 
-const usernameInput = document.getElementById('username');
-const statusEl      = document.getElementById('status');
-const playersList   = document.getElementById('players-list');
-const topicsDiv     = document.getElementById('topics');
-const topicButtons  = document.getElementById('topic-buttons');
-const gameArea      = document.getElementById('game-area');
-const myWord        = document.getElementById('my-word');
-const impostorMsg   = document.getElementById('impostor-msg');
-const topicDisplay  = document.getElementById('topic-display');
-const roundEl       = document.getElementById('round');
-const messages      = document.getElementById('messages');
-
-function joinGame() {
-  const name = usernameInput.value.trim();
-  if (!name) return;
-  socket.emit('join', name);
-  document.getElementById('join').classList.add('hidden');
+function showSection(section) {
+  [lobby, playersDiv, topicsDiv, gameArea, chatDiv].forEach(el => el.classList.add('hidden'));
+  if (section) section.classList.remove('hidden');
 }
 
-usernameInput.addEventListener('keypress', e => {
-  if (e.key === 'Enter') joinGame();
+function createRoom() {
+  const name = prompt("اسمك:", "لاعب") || "لاعب";
+  socket.emit('createRoom', name, (res) => {
+    if (res.success) {
+      showSection(playersDiv);
+      roomInfo.innerHTML = `غرفتك: <strong>${res.roomId}</strong><br>شارك هذا الكود مع أصدقائك!`;
+      statusEl.textContent = 'انتظر لاعبين آخرين...';
+    }
+  });
+}
+
+function joinExistingRoom() {
+  const roomId = document.getElementById('roomIdInput').value.trim().toUpperCase();
+  if (!roomId) return alert("أدخل كود الغرفة");
+
+  const name = prompt("اسمك:", "لاعب") || "لاعب";
+  socket.emit('joinRoom', { roomId, username: name }, (res) => {
+    if (res.success) {
+      showSection(playersDiv);
+      roomInfo.innerHTML = `انضممت إلى الغرفة: <strong>${roomId}</strong>`;
+      statusEl.textContent = 'انتظر بداية اللعبة...';
+    } else {
+      alert(res.message || "حدث خطأ – تحقق من الكود");
+    }
+  });
+}
+
+socket.on('roomCreated', (data) => {
+  // يمكن عرض معلومات إضافية هنا
 });
 
-socket.on('playersList', names => {
-  playersList.innerHTML = names.length 
-    ? names.map(n => `👤 ${n}`).join('<br>')
-    : 'لا يوجد لاعبون بعد…';
+socket.on('playersList', (names) => {
+  playersList.innerHTML = names.length ? names.map(n => `👤 ${n}`).join('<br>') : 'لا يوجد لاعبون بعد...';
 });
 
-socket.on('showTopics', topics => {
-  topicsDiv.style.display = 'block';
+socket.on('showTopics', (topics) => {
+  showSection(topicsDiv);
+  statusEl.textContent = 'اختر الموضوع الآن!';
   topicButtons.innerHTML = '';
   topics.forEach(t => {
     const btn = document.createElement('button');
-    btn.className = 'topic';
     btn.textContent = t;
     btn.onclick = () => {
       socket.emit('chooseTopic', t);
-      topicsDiv.style.display = 'none';
+      topicsDiv.classList.add('hidden');
     };
     topicButtons.appendChild(btn);
   });
 });
 
-socket.on('yourWord', data => {
-  gameArea.style.display = 'block';
+socket.on('yourWord', (data) => {
+  showSection(gameArea);
+  showSection(chatDiv);
   myWord.textContent = data.word;
   impostorMsg.classList.toggle('hidden', !data.isImpostor);
   topicDisplay.textContent = data.topic || '—';
   roundEl.textContent = data.round || 1;
+  statusEl.textContent = 'اللعبة بدأت – حاولوا اكتشاف المحتال!';
 });
 
-socket.on('gameUpdate', data => {
+socket.on('gameUpdate', (data) => {
   if (data.status) {
     statusEl.textContent = {
-      waiting:   'جاري الانتظار للاعبين… (الحد الأدنى 3)',
-      choosing:  'اختر الموضوع الآن! ⏳',
-      playing:   'اللعبة جارية… حاولوا اكتشاف المحتال!'
+      waiting: 'جاري الانتظار للاعبين...',
+      choosing: 'اختر الموضوع الآن! ⏳',
+      playing: 'اللعبة جارية... حاولوا تكتشفوا المحتال!'
     }[data.status] || data.status;
   }
   if (data.topic) topicDisplay.textContent = data.topic;
   if (data.round) roundEl.textContent = data.round;
 });
 
-socket.on('chat', msg => {
+socket.on('chat', (msg) => {
   const p = document.createElement('p');
   p.textContent = msg;
   messages.appendChild(p);
   messages.scrollTop = messages.scrollHeight;
 });
 
-// اختياري: إعادة الاتصال التلقائي إذا انقطع
-socket.on('disconnect', () => {
-  statusEl.textContent = 'انقطع الاتصال... جاري إعادة المحاولة ⏳';
+socket.on('roomClosed', (msg) => {
+  alert(msg);
+  location.reload();  // إعادة تحميل للعودة إلى اللوبي
 });
 </script>
-
 </body>
 </html>
